@@ -1,113 +1,127 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
+import axios from "axios";
+import FormData from "form-data";
+import { translate } from "./actions";
+
+type Generation = {
+  prompt: string;
+  image: string;
+};
 
 export default function Home() {
+  const [prompt, setPrompt] = useState("");
+  const [generations, setGenerations] = useState<Generation[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const generateImage = async () => {
+    setError("");
+    setLoading(true);
+    const translatedPrompt = await translate(prompt);
+    console.log(translatedPrompt);
+    const formData = {
+      prompt: translatedPrompt,
+      output_format: "webp",
+    };
+    const response = await axios.postForm(
+      `https://api.stability.ai/v2beta/stable-image/generate/core`,
+      axios.toFormData(formData, new FormData()),
+      {
+        validateStatus: undefined,
+        responseType: "arraybuffer",
+        headers: {
+          Authorization: `Bearer sk-dBypJQ7dv03gUIjiopBsboh1c4r1LU6p6sUjoRJgUw0h0Yk0`,
+          Accept: "image/*",
+        },
+      }
+    );
+    setLoading(false);
+    if (response.status === 200) {
+      const arrayBuffer = response.data;
+      const blob = new Blob([arrayBuffer], { type: "image/jpeg" });
+      const url = URL.createObjectURL(blob);
+      console.log("imageUrl: ", url);
+      setGenerations([...generations, { prompt, image: url }]);
+      // URL.revokeObjectURL(url);
+      setPrompt("");
+    } else if (response.status === 403) {
+      setError(
+        "Your request was flagged by our content moderation system, as a result your request was denied. Enter another prompt."
+      );
+    } else if (response.status === 429) {
+      setError("The server is busy now. Try again in two minutes.");
+    } else if (response.status === 402) {
+      setError("Payment required to generate image. Contact app creators.");
+    } else {
+      setError(
+        "An error occurred while generating the image. Please try again."
+      );
+      // throw new Error(`${response.status}: ${response.data.toString()}`);
+    }
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
+    <main className="flex h-screen flex-col items-center justify-between p-4 bg-[url('https://images.unsplash.com/photo-1600241005059-71de13374958?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')]">
+      <h1 className="font-bold text-yellow-300 text-center text-4xl">
+        Benin AI Image Generator
+      </h1>
+      <p className="text-red-700 font-bold text-lg text-center">{error}</p>
+      <div className="grow my-2 overflow-auto bg-[#0005] text-white px-4 w-full lg:w-1/2">
+        {generations.length > 0 ? (
+          generations.map((generation, index) => (
+            <GenerationView
+              key={index}
+              prompt={generation.prompt}
+              image={generation.image}
             />
-          </a>
-        </div>
+          ))
+        ) : (
+          <p className="text-center">Your generations will appear here</p>
+        )}
       </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+      <div className="flex justify-between gap-2 w-full lg:w-1/2">
+        <input
+          value={prompt}
+          onChange={(e) => {
+            setPrompt(e.target.value);
+          }}
+          type="text"
+          name="prompt"
+          id="prompt"
+          placeholder="Describe what you want to see"
+          className="grow px-4 rounded-lg text-black"
         />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          className="text-green-500"
+          disabled={prompt === ""}
+          onClick={() => generateImage()}
         >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+          Generat{loading ? "ing..." : "e"}
+        </button>
       </div>
     </main>
+  );
+}
+
+interface GenerationProps {
+  prompt: string;
+  image: string;
+}
+
+function GenerationView({ prompt, image }: GenerationProps) {
+  return (
+    <div>
+      <p className="font-bold text-lg text-left">{prompt}</p>
+      <Image
+        src={image}
+        alt={prompt}
+        width={400}
+        height={400}
+        className="mb-4"
+      />
+    </div>
   );
 }
