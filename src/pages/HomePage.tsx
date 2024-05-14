@@ -8,7 +8,10 @@ const HomePage = () => {
                 <div className='space-y-20 flex flex-col justify-center h-screen max-w-homepageblock mx-auto px-4'>
                 <h1 className='text-3xl font-bold max-w-[14em]'>The Future of Chat is Here With AI Technology</h1>
                     <p className='max-w-[80em]'>"The future of chat is here with AI technology" implies that the integration of AI into chat technology is already happening and that it's an exciting development for the way we communicate. AI-powered chatbots are becoming increasingly sophisticated and are able to understand and respond to natural language,</p>
-             <Link href="/ChatPage"><button className='bg-mainColor lg:w-[38em] text-white py-2 px-3 rounded-full cursor-pointer text-lg font-bold'>Get started</button></Link>   
+            
+             <Link href="/ChatPage">
+              <button className='bg-mainColor lg:w-[38em] text-white py-2 px-3 rounded-full cursor-pointer text-lg font-semibold'>Get started</button>
+            </Link>   
              </div>
         </div>
     </main>

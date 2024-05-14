@@ -126,16 +126,4 @@
 //   );
 // }
 
-import React from 'react'
-import HomePage from '../pages/HomePage'
-import Suggestions from '../components/Suggestions'
 
-const page = () => {
-  return (
-    <main className='bg-white h-screen w-full'>
-        <Suggestions/>
-    </main>
-  )
-}
-
-export default page
