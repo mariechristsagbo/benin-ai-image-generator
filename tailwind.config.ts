@@ -11,8 +11,19 @@ const config: Config = {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+
+      colors: {
+          mainColor : "#2ABF39",
+          grey : "#7B7B7B",
+      },
+
+      maxWidth: {
+        'card' : '25em',
+        'homepageblock' : '90em',
+      },
+
     },
   },
   plugins: [],
