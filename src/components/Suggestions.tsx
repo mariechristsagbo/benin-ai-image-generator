@@ -22,15 +22,15 @@ const Suggestions = () => {
                  ))}
             </div>
 
-          <div className='flex items-center gap-5 w-full px-4'>
+          <div className='flex items-center sm:gap-5 w-full px-4 sm:flex-row flex-col'>
 
             <input 
                 type="text" 
-                className='w-11/12 border my-4 rounded-xl bg-gray-50 py-3 px-5 outline-none'
+                className='sm:w-11/12 w-full border my-4 rounded-xl bg-gray-50 py-3 px-5 outline-none'
                 placeholder='Write your prompt'
             /> 
 
-            <button className='bg-mainColor text-white py-2 px-3 rounded-lg cursor-pointer text-lg'>
+            <button className='bg-mainColor text-white py-2 px-3 rounded-lg cursor-pointer text-lg w-full sm:w-2/12'>
                 Generate
             </button>
         </div>
