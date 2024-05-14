@@ -1,5 +1,4 @@
 import React from 'react'
-import { BsChatLeftText } from "react-icons/bs";
 
 const Suggestions = () => {
 
