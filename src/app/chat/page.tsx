@@ -5,7 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 import FormData from "form-data";
 import { translate } from "../actions";
-import Dropdown from "../components/Dropdown";
+// import Dropdown from "../components/Dropdown";
 
 type Generation = {
   prompt: string;
