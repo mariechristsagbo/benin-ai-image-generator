@@ -40,7 +40,7 @@ type Generation = {
         validateStatus: undefined,
         responseType: "arraybuffer",
         headers: {
-          Authorization: `Bearer sk-C2qvON1cu0DukGmmy1yobxPDUqdSq6jG9a9Ls61433fQJgqj`,
+          Authorization: `Bearer sk-GBys4Xf3gSRgl11KBLMtpf5WifvpUsLjbIpi5GxpIsSDlior`,
           Accept: "image/*",
         },
       }
@@ -78,7 +78,7 @@ type Generation = {
         <div className='flex flex-col max-w-3xl mx-auto h-screen'>
         
              <div className='max-w-2xl mx-auto my-4'>
-                <h1 className='font-bold text-5xl text-center py-3'>BenAI Image <span className='text-mainColor'>Generator</span></h1>
+                <h1 className='font-extrabold lg:text-5xl sm:text-4xl text-3xl text-center py-3'>BeninGbe2Image</h1>
                 <p className='text-lg text-center font-medium'>What image can I help you generate today ?</p>
              </div>
 
@@ -122,7 +122,7 @@ type Generation = {
 
             {hasRequested ? null : <Suggestions />}
 
-            <div className='flex items-center sm:gap-5 w-full px-4 sm:flex-row flex-col sticky bottom-0'>
+            <div className='flex items-center sm:gap-5 w-full px-4 sm:flex-row flex-col'>
 
               <input 
                 value={prompt}
@@ -161,17 +161,30 @@ interface GenerationProps {
   
   function GenerationView({ prompt, image }: GenerationProps) {
     return (
-      <div>
-          <div className="rounded-lg bg-gray-100 p-4 text-sm my-2">
-            <p>{prompt}</p>
-          </div>
-        <Image
+      <div className="flex flex-col">
+           <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                <div className="flex flex-col items-start space-y-2">
+                    <div className="bg-mainColor rounded-lg px-4 py-3 max-w-[80%] shadow-md">
+                          <p className="text-white">{prompt}</p>
+                    </div>
+
+                    <span className="text-xs text-gray-500">User</span>
+              </div>
+
+          <div className="flex flex-col items-end space-y-2">
+
+          <Image
           src={image}
           alt={prompt}
           width={400}
           height={400}
           className="mb-4"
         />
-      </div>
-    );
-  }
+            <span className="text-xs text-gray-500">BeninGbe2Image</span>
+         </div>
+        </div>
+    </div>
+
+);
+  
+}

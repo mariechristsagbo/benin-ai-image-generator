@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Benin Multimodal AI Hackathon
 
-## Getting Started
+## Project Title: BeninGbe2Image
 
-First, run the development server:
+**Short Description:** Generating culturally relevant images from local languages such as Fon and Yoruba, to improve cultural accessibility and preservation of Benin's languages.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+**Long Description:** BeninGbe2Image addresses the challenge of cultural preservation in Benin by leveraging AI technology to generate vibrant visuals from languages such as Fon and Yoruba. Targeting language enthusiasts, farmers, tourism agencies, and Beninese expatriates, our application fosters cultural appreciation and sustainability. Unique features include multilingual support, accurate translations, and culturally relevant image outputs.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Technology & Category Tags: AI, Multilingual, Cultural Preservation, Agriculture, Tourism, Imagen, Vercel.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Visit in Production:** [BeninGbe2Image](https://beningbe2image.vercel.app/)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+---
+**Our Team**
+- [Freddy Agbona](https://linkedin.com/in/fredthedev)
+- [Vivien Ogoun](https://linkedin.com/in/vivien-ogoun)
+- [Marie-Christ Sagbo](https://www.linkedin.com/in/marie-christ-sagbo)
+- [Kenneth Zehe](https://www.linkedin.com/in/kenneth-zehe/)
+- [Eliezer Djihinto](https://www.linkedin.com/in/eliezer-djihinto/)
 
-## Learn More
+----
+**How to Clone and Start the Project Locally:**
+1. Clone the repository: `git clone https://github.com/vivienogoun/benin-ai-image-generator.git`
 
-To learn more about Next.js, take a look at the following resources:
+2. Navigate to the project directory: `cd benin-ai-image-generator`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Install dependencies: `npm install`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+4. Start the development server: `npm run dev`
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+5. Open [http://localhost:3000/](http://localhost:3000/) with your browser to see the result.
