@@ -125,5 +125,13 @@
 //     </div>
 //   );
 // }
-
-
+"use client"
+import ChatPage from "../pages/ChatPage"
+import HomePage from "../pages/HomePage"
+export default function Home() {
+    return (
+        <main>
+            <ChatPage/>
+        </main>
+    )
+}

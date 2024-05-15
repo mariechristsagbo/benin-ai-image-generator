@@ -18,11 +18,14 @@ type Generation = {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [hasRequested, setHasRequested] = useState(false);
+  const [waitingVisible, setWaitingVisible] = useState(false);
+
 
   const generateImage = async () => {
     setError("");
     setLoading(true);
     setHasRequested(true);
+    setWaitingVisible(true);
 
     const translatedPrompt = await translate(prompt);
     console.log(translatedPrompt);
@@ -37,7 +40,7 @@ type Generation = {
         validateStatus: undefined,
         responseType: "arraybuffer",
         headers: {
-          Authorization: `Bearer sk-2qvON1cu0DukGmmy1yobxPDUqdSq6jG9a9Ls61433fQJgqj`,
+          Authorization: `Bearer sk-C2qvON1cu0DukGmmy1yobxPDUqdSq6jG9a9Ls61433fQJgqj`,
           Accept: "image/*",
         },
       }
@@ -50,6 +53,7 @@ type Generation = {
       console.log("imageUrl: ", url);
       setGenerations([...generations, { prompt, image: url }]);
       // URL.revokeObjectURL(url);
+      setWaitingVisible(false);
       setPrompt("");
     } else if (response.status === 403) {
       setError(
@@ -85,7 +89,8 @@ type Generation = {
 
               <div className='h-[60em]'>
         
-        <div className="grow my-2 overflow-auto text-black px-4 w-full lg:w-1/2">
+                  <div className="grow my-2 overflow-auto text-black px-4 w-full">
+
 
        {generations.length > 0 ? (
           generations.map((generation, index) => (
@@ -96,17 +101,28 @@ type Generation = {
             />
           ))
         ) : (
-                    <p className=" font-semibold">Your generations will appear here</p>
+                    <p className="font-semibold">Your generations will appear here</p>
       )}
       </div>
-              </div>
-        
-          
+
+      
+    {/* Loading Animation */}
+    {waitingVisible && (
+      <div className="flex items-center gap-2 px-4 my-4 mx-4">
+        <span className="h-3 w-3 rounded-full bg-gray-500 animate-pulse"></span>
+        <span className="h-3 w-3 rounded-full bg-gray-500 animate-pulse"></span>
+        <span className="h-3 w-3 rounded-full bg-gray-500 animate-pulse"></span>
+      </div>
+    )}
+
+        </div>
+
+
             <div>
 
             {hasRequested ? null : <Suggestions />}
 
-            <div className='flex items-center sm:gap-5 w-full px-4 sm:flex-row flex-col'>
+            <div className='flex items-center sm:gap-5 w-full px-4 sm:flex-row flex-col sticky bottom-0'>
 
               <input 
                 value={prompt}
@@ -146,7 +162,9 @@ interface GenerationProps {
   function GenerationView({ prompt, image }: GenerationProps) {
     return (
       <div>
-        <p className="font-bold text-lg text-left">{prompt}</p>
+          <div className="rounded-lg bg-gray-100 p-4 text-sm my-2">
+            <p>{prompt}</p>
+          </div>
         <Image
           src={image}
           alt={prompt}
