@@ -1,18 +1,18 @@
 "use client";
 import Image from 'next/image';
-import Suggestions from '../app/components/Suggestions'
+import Suggestions from '../components/Suggestions'
 import { useState } from "react";
 import axios from "axios";
 import FormData from "form-data";
-import { translate } from "../app/actions";
-import Dropdown from "../app/components/Dropdown"
+import { translate } from "../actions";
+import Dropdown from "../components/Dropdown"
 
 type Generation = {
   prompt: string;
   image: string;
 };
 
-  const ChatPage = () => {
+export default function ChatPage() {
   const [prompt, setPrompt] = useState("");
   const [generations, setGenerations] = useState<Generation[]>([]);
   const [loading, setLoading] = useState(false);
@@ -152,7 +152,6 @@ type Generation = {
   )
 }
 
-export default ChatPage
 
 interface GenerationProps {
     prompt: string;
