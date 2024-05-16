@@ -8,7 +8,7 @@
 
 ### Technology & Category Tags: AI, Multilingual, Cultural Preservation, Agriculture, Tourism, Imagen, Vercel.
 
-**Visit in Production:** [BeninGbe2Image](https://beningbe2image.vercel.app/)
+**Visit in Production:** [BeninGbe2Image](https://benin-ai-image-generator.vercel.app/)
 
 ---
 **Our Team**
