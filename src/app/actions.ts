@@ -1,5 +1,10 @@
 "use server";
 
+export async function getApiKeys() {
+  const apiKeys = process.env.API_KEYS?.split(" ");
+  return apiKeys!;
+}
+
 export async function translate(language: string, text: string) {
   const response = await fetch(
     `https://translate.glosbe.com/${

@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useState } from "react";
 import axios from "axios";
 import FormData from "form-data";
-import { translate } from "../actions";
+import { getApiKeys, translate } from "../actions";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
 type Generation = {
@@ -34,14 +34,11 @@ export default function ChatPage() {
   const [suggestionsVisible, setSuggestionsVisible] = useState(true);
   const [language, setLanguage] = useState("fon");
   const suggestions = language === "fon" ? fonSuggestions : yorubaSuggestions;
-  const apiKeys = [
-    "sk-xhnOGJwpzdpk7rLQxmTRez5ldv5oG38RbT6QUZqf6IFCOGRp",
-    "sk-1aiQS8vzQ30FskcR3xEH6Qs21OvOJ80azFfoDSSsqwH5xYrL",
-    "sk-ivvT1qvBQZNAZOtFiMb5ZwD6oBJdvu0E1vhuyeplwmInKWcr",
-  ];
   let currentKeyIndex = 0;
 
   const generateImage = async () => {
+    const apiKeys = await getApiKeys();
+    // console.log(apiKeys);
     setError("");
     setLoading(true);
     setSuggestionsVisible(false);
